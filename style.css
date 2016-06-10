@@ -1,0 +1,174 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:100,300);
+
+
+
+/* Normalizer */
+* {
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+
+
+
+/* Structure */
+/* General */
+html{
+	height: 100%;
+	background: rgb(235, 247, 250); 
+}
+
+body {
+	height: 100%;
+	font-family: 'Roboto', helvetica, arial, sans-serif;
+	font-weight: 100;
+	position: relative;
+}
+
+#box {
+	width: 800px;
+	margin: 0 auto;
+	-webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+
+
+/* Applet */
+#applet {
+	min-height: 193px;
+    z-index: 3;
+    cursor: pointer;
+	margin-bottom: 20px;
+	opacity: .9;
+    text-shadow: 1px 1px rgba(135, 165, 176, .6);
+    color: white;
+    background-color: rgba(12, 14, 13, .15);
+    border-radius: 8px;
+}
+
+#applet:hover {
+	box-shadow: 0px 0px 0px 1px rgba(12, 14, 13, .25) inset;
+}
+
+
+
+/* Clock */
+#clock {
+    width: 399px;
+    min-height: 123px;
+    padding-top: 18px;
+    margin: 26px 0;
+    border-right: 1px solid rgba(12, 14, 13, .15);
+    float: left;
+    text-align: center;
+    font-size: 90px;
+}
+
+#clock span {
+	font-size: 34px;
+	font-weight: 300;
+}
+
+
+
+/* Weather */
+#weather {
+    width: 400px;
+    min-height: 161px;
+    padding-top: 32px;
+    float: right;
+    text-align: center;
+    font-size: 45px;
+}
+
+#weather p:first-of-type {
+	font-weight: 300;
+}
+
+#weather img {
+	position: relative;
+	top: 10px;
+}
+
+
+
+/* 7 Day Forecast */
+#forecast {
+    height: 351px;
+    opacity: .2;
+}
+
+#forecast .day {
+	float: left;
+	width: 114px;
+	height: 150px;
+	text-align: center;
+}
+
+.day p:first-of-type, .day p:nth-of-type(2) {
+	font-weight: 300;
+}
+
+.day p span {
+	font-size: 14px;
+	letter-spacing: 1.5px;
+	font-weight: 100;
+}
+
+.day h3 {
+	line-height: 18px;
+	/*opacity: .8;*/
+}
+
+#forecast .day img {
+	display: block;
+	margin: 0 auto;
+	position: relative;
+	top: 2px;
+}
+
+
+
+/* Search */
+#search {
+	min-height: 80px;
+    z-index: 3;
+	opacity: .9;
+    text-shadow: 1px 1px rgba(135, 165, 176, .6);
+    color: white;
+}
+
+#search input {
+	float: left;
+	height: 80px;
+	width: 90%;
+	background-color: rgba(12, 14, 13, .15);
+	border-radius: 8px;
+
+}
+
+
+
+
+
+/* General Classes */
+.box-min {
+	padding-top: 30vh;
+}
+
+.box-full {
+	padding-top: 26vh;
+}
+
+.hide {
+	display: none;
+}
+
+.clear:after {
+	clear: both;
+	content: "";
+	display: block;
+}
