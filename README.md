@@ -1,4 +1,4 @@
-# weather_applet
+# weather_web_app
 
 A simple weather web app for Waltham, MA that uses the Open Weather Map API and allows users to search weather conditions in US cities.
 
