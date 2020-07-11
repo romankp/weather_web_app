@@ -1,19 +1,85 @@
+import { key } from './constants.js';
+
 $(() => {
 	// Weather
+	const weatherDiv = $('#weather');
+	const dayDivs = $('.day');
+
 	const returnURL = type => { // Return the call URL string
-		const key = 'cb898157c02b3b9e715e19cccadb2122';
 		const cityCode = '4954380';
 		const isCurrent = type === 'current';
 		const endpoint = isCurrent ? 
 		'http://api.openweathermap.org/data/2.5/weather' :
 		'http://api.openweathermap.org/data/2.5/forecast/daily';
 		const count = isCurrent ? '' : '&cnt=8';
+
 		return `${endpoint}?id=${cityCode}&units=imperial${count}&APPID=${key}`;
 	};
 
+	const request = async type => { // Fetch and parse out the neccessary info
+		const response = await fetch(returnURL(type)); // Fetch the response
+		const data = await response.json(); // Grab the response JSON
+		
+		if (type === 'current') {
+			var weatherSpread = data;
+			console.log(weatherSpread);
+
+			var desc = weatherSpread.weather[0].description;
+			var temp = Math.round(weatherSpread.main.temp);
+			var icon = weatherSpread.weather[0].icon;
+
+			weather.updateBG(icon);
+			updateCurrentWeather(desc, temp, icon);
+		}
+		else {
+			var weatherSpread = data;
+			console.log(weatherSpread);
+
+			var forecastDays = [];
+
+			for (let d = 1; d < 8; d++) {
+				var timeStamp = weatherSpread.list[d].dt;
+				var dateObj = new Date(timeStamp * 1000);
+				var dayNum = dateObj.getUTCDay();
+				var week = [
+					"SUN",
+					"MON",
+					"TUES",
+					"WED",
+					"THUR",
+					"FRI",
+					"SAT"
+				];
+
+				forecastDays[d - 1] = {
+					day: week[dayNum],
+					desc: weatherSpread.list[d - 1].weather[0].description,
+					tempMax: Math.round(weatherSpread.list[d - 1].temp.max),
+					tempMin: Math.round(weatherSpread.list[d - 1].temp.min),
+					icon: weatherSpread.list[d - 1].weather[0].icon
+				}
+			};
+
+			test(forecastDays.length == 7, "7 items (days) are not being loaded into the forecastDays array in request")
+			
+			updateForecast(forecastDays);
+		}
+	};
+
 	const requestAllWeather = () => { // Delays the the server call between current and forecast requests
-		weather.request('current');
-		setTimeout(() => weather.request('forecast'), 1000);
+		request('current');
+		setTimeout(() => request('forecast'), 1000);
+	};
+
+	const updateCurrentWeather = (desc, temp, icon) => { // Updates current weather section
+		weatherDiv.html(`<p><img src='http://openweathermap.org/img/w/${icon}.png'>${temp}&#176</p><p>${desc}</p>`);
+	};
+
+	const updateForecast = daysArray => { // Updates the forecast section and each .day element
+		dayDivs.each((i, el) => {
+			const { day, desc, tempMax, tempMin, icon } = daysArray[i];
+			$(el).html(`<h3>${day}</h3><img src='http://openweathermap.org/img/w/${icon}.png'><p>${tempMax}&#176 <span>hi</span></p><p>${tempMin}&#176 <span>lo</span></p><p>${desc}</p>`);
+		});
 	};
 
 	const weather = {
@@ -27,7 +93,8 @@ $(() => {
 					var temp = Math.round(weatherSpread.main.temp);
 					var icon = weatherSpread.weather[0].icon;
 
-					weather.updateApplet(desc, temp, icon);
+					weather.updateBG(icon);
+					updateCurrentWeather(desc, temp, icon);
 				}
 				else {
 					var weatherSpread = data;
@@ -60,41 +127,9 @@ $(() => {
 
 					test(forecastDays.length == 7, "7 items (days) are not being loaded into the forecastDays array in request")
 					
-					weather.updateAppletForecast(forecastDays);
+					updateForecast(forecastDays);
 				}
 			});
-		},
-
-		updateApplet: function(desc, temp, icon) { // updates applet with current weather
-			var desc = desc;
-			var temp = temp;
-			var icon = icon;
-
-			var weatherDiv = $("#weather");
-
-			test(weatherDiv.length, "weatherDiv in updateApplet is not being populated")
-
-			this.updateBG(icon);
-
-			weatherDiv.html("<p><img src='http://openweathermap.org/img/w/" + icon + ".png'>" + temp + "&#176</p><p>" + desc + "</p>");
-		},
-
-		updateAppletForecast: function(array) { // updates the forecast portion of the applet, creates the 7 individual day cards
-			var forecastDays = array;
-			var forecastDiv = $("#forecast");
-
-			test(forecastDiv.length, "forecastDiv in updateAppletForecast is not being populated");
-
-			$(".day").each(function(i){
-				var day = forecastDays[i].day;
-				var desc = forecastDays[i].desc;
-				var tempMax = forecastDays[i].tempMax;
-				var tempMin = forecastDays[i].tempMin;
-				var icon = forecastDays[i].icon;
-
-				$(this).html("<h3>" + day + "</h3><img src='http://openweathermap.org/img/w/" + icon + ".png'><p>"  + tempMax + "&#176 <span>hi</span></p><p>" + tempMin + "&#176 <span>lo</span></p><p>" + desc + "</p>");
-			});
-
 		},
 
 		updateBG: function(i) { // changes background gradient based on OPW icon
@@ -172,12 +207,12 @@ $(() => {
 				console.log("night time (" + icon[2] + ")");
 			}
 
-			var style = [
+			const style = [
 				'background: bottomColor',
-			    'background: -webkit-linear-gradient(left top, ' + topColor + ', ' + bottomColor + ')',
-			    'background: -o-linear-gradient(bottom right, ' + topColor + ', ' + bottomColor + ')', 
-			    'background: -moz-linear-gradient(bottom right, ' + topColor + ', ' + bottomColor + ')',
-			    'background: linear-gradient(to bottom right, ' + topColor + ', ' + bottomColor + ')'
+				'background: -webkit-linear-gradient(left top, ' + topColor + ', ' + bottomColor + ')',
+				'background: -o-linear-gradient(bottom right, ' + topColor + ', ' + bottomColor + ')', 
+				'background: -moz-linear-gradient(bottom right, ' + topColor + ', ' + bottomColor + ')',
+				'background: linear-gradient(to bottom right, ' + topColor + ', ' + bottomColor + ')'
 			].join(';');
 
 			$("html").attr('style', style);
