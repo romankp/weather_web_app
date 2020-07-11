@@ -1,29 +1,24 @@
 $(() => {
-	const test = (claim, message) => { // Mini test method
-		claim ? true : message;
+	// Weather
+	const returnURL = type => { // Return the call URL string
+		const key = 'cb898157c02b3b9e715e19cccadb2122';
+		const cityCode = '4954380';
+		const isCurrent = type === 'current';
+		const endpoint = isCurrent ? 
+		'http://api.openweathermap.org/data/2.5/weather' :
+		'http://api.openweathermap.org/data/2.5/forecast/daily';
+		const count = isCurrent ? '' : '&cnt=8';
+		return `${endpoint}?id=${cityCode}&units=imperial${count}&APPID=${key}`;
+	};
+
+	const requestAllWeather = () => { // Delays the the server call between current and forecast requests
+		weather.request('current');
+		setTimeout(() => weather.request('forecast'), 1000);
 	};
 
 	const weather = {
-		key: "cb898157c02b3b9e715e19cccadb2122",
-		city: "4954380",
-		url: {
-			current: "http://api.openweathermap.org/data/2.5/weather",
-			forecast: "http://api.openweathermap.org/data/2.5/forecast/daily"
-		},
-
-		makeURL: function(type) { // puts together the API call URL
-			if (type == "current") {
-				return this.url[type] + "?id=" + this.city + "&units=imperial&APPID=" + this.key;
-			}
-			else {
-				return this.url[type] + "?id=" + this.city + "&units=imperial&cnt=8&APPID=" + this.key;
-			}
-		},
-
-
-
 		request: function(type) { // load JSON encoded data and parse out the neccessary info
-			$.getJSON(weather.makeURL(type), function(data) {
+			$.getJSON(returnURL(type), data => {
 				if (type == "current") {
 					var weatherSpread = data;
 					console.log(weatherSpread);
@@ -70,15 +65,6 @@ $(() => {
 			});
 		},
 
-
-
-		requestBoth: function() { // delays the the server call between current and forecast requests
-			weather.request("current");
-			setTimeout(function() { weather.request("forecast"); }, 1000);
-		},
-
-
-
 		updateApplet: function(desc, temp, icon) { // updates applet with current weather
 			var desc = desc;
 			var temp = temp;
@@ -92,8 +78,6 @@ $(() => {
 
 			weatherDiv.html("<p><img src='http://openweathermap.org/img/w/" + icon + ".png'>" + temp + "&#176</p><p>" + desc + "</p>");
 		},
-
-
 
 		updateAppletForecast: function(array) { // updates the forecast portion of the applet, creates the 7 individual day cards
 			var forecastDays = array;
@@ -239,14 +223,19 @@ $(() => {
 		targetElement.addClass(classToAdd);
 	};
 
+	const test = (claim, message) => { // Mini test method
+		claim ? true : message;
+	};
+
 
 
 	// Init clock
 	updateClock();
+	requestAllWeather();
 
 	// Set Intervals
 	setInterval(() => updateClock(), 1000);
-	setInterval(weather.requestBoth(), 1800000);
+	setInterval(() => requestAllWeather(), 1800000);
 
 	// Add UI
 	$("#applet").click(() => animateBoxToggle()); 
