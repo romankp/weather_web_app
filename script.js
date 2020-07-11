@@ -1,17 +1,9 @@
-$(function() {
-
-	var test = function(claim, message) {
-		if (claim) {
-			return true;
-		}
-		else {
-			return message;
-		}
+$(() => {
+	const test = (claim, message) => { // Mini test method
+		claim ? true : message;
 	};
 
-
-
-	var weather = {
+	const weather = {
 		key: "cb898157c02b3b9e715e19cccadb2122",
 		city: "4954380",
 		url: {
@@ -210,73 +202,52 @@ $(function() {
 
 
 
-	var clock = {
-		start: function() { // creates Date object, parses time info, and calls timeString to build innerHTML in #clock
-			var clockDiv = $("#clock");
-			var today = new Date();
-			var h = today.getHours();
-			var m = today.getMinutes();
-			var s = today.getSeconds();
-			var n = clock.isAfterNoon(h);
-			clockDiv.html(clock.timeString(h, m, s, n));
-		},
+	// Clock
+	const clockElement = $("#clock");
 
-		addZero: function(n) { // adds a zero to the minutes or seconds when in single digits
-			if (n < 10) {
-				n = "0" + n;
-			}
-			return n;
-	 	},
+	const updateClock = () => { // Updates clock element string
+		const today = new Date();
+		const h = today.getHours();
+		const m = today.getMinutes();
+		const s = today.getSeconds();
+		const n = h >= 12 ? 'PM' : 'AM';
+		clockElement.html(returnTimeString(h, m, s, n));
+	};
 
-	 	americanize: function(h) { // we're demilitarizing these hours, hany
-	 		if (h > 12) {
-	 			h = h - 12;
-	 		}
-	 		else if (h == 0) {
-	 			h = 12;
-	 		}
-	 		return h;
-	 	},
-
-	 	isAfterNoon: function(h) { // checks if morning or noon
-	 		if (h >= 12) {
-	 			return "PM";
-	 		}
-	 		return "AM";
-	 	},
-
-	 	timeString: function(h, m, s, n) { // returns a concatenated, fluffed time string 
-	 		h = this.americanize(h);
-	 		m = this.addZero(m);
-	 		s = this.addZero(s);
-	 		return h + ":" + m + ":" + s + "<span>" + n + "</span>";
-	 	}
+	const returnTimeString = (h, m, s, n) => { // Returns a concatenated, formatted time string 
+		h = h > 12 ? h - 12 : h == 0 ? 12 : h; // We're demilitarizing these hours, heny
+	 	m = m < 10 ? `0${m}` : m; // Adds a zero to the minutes when in single digits
+		s = s < 10 ? `0${s}` : s; // Adds a zero to the seconds when in single digits
+		return `${h}:${m}:${s}<span>${n}</span>`;
 	};
 
 
 
-	var animations = {
-		boxToggle: function() { // toggles visibility of forecast section along with the padding-top of #box
-			$("#forecast").animate({
-			opacity: 1,
-			height: "toggle"
-			},
-			1000);
-
-			if ($("#box").hasClass("box-min")) {
-				$("#box").removeClass("box-min");
-				$("#box").addClass("box-full");
-			}
-			else if ($("#box").hasClass("box-full")) {
-				$("#box").removeClass("box-full");
-				$("#box").addClass("box-min");
-			}
-		}
+	// Bit of toggle fun
+	const animateBoxToggle = () => { // The animate portion of this method can be done with css
+		const box = $("#box");
+		const minifiedBox = box.hasClass("box-min");
+		$("#forecast").animate({opacity: 1,	height: "toggle"}, 1000);
+		minifiedBox ? switchClass(box, 'box-min', 'box-full') : switchClass(box, 'box-full', 'box-min');
 	};
 
 
 
+	// Utilities
+	const switchClass = (targetElement, classToRemove, classToAdd) => { // Custom switchClass method since base jQuery doesn't have this feature....?
+		targetElement.removeClass(classToRemove);
+		targetElement.addClass(classToAdd);
+	};
+
+
+
+	// Init clock
+	updateClock();
+
+	// Set Intervals
+	setInterval(() => updateClock(), 1000);
 	setInterval(weather.requestBoth(), 1800000);
-	setInterval(clock.start, 1000);
-	$("#applet").click(animations.boxToggle); // on click, toggles #applet div exapansion to reveal and hide forecast
+
+	// Add UI
+	$("#applet").click(() => animateBoxToggle()); 
 });
