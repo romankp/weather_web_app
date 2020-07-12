@@ -16,4 +16,4 @@ const key = <grab a key string from the Open Weather MAP project and add it here
 export { key };
 ```
 
-Because we're using import/export here, you will need to set up a simple static server. I use `static-server`.
+Because we're using import/export here, you will need to set up a simple static server. I use `http-server`.

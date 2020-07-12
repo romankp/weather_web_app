@@ -145,7 +145,7 @@ $(() => {
 		}
 
 		const style = [
-			'background: bottomColor',
+			'background: ' + bottomColor,
 			'background: -webkit-linear-gradient(left top, ' + topColor + ', ' + bottomColor + ')',
 			'background: -o-linear-gradient(bottom right, ' + topColor + ', ' + bottomColor + ')', 
 			'background: -moz-linear-gradient(bottom right, ' + topColor + ', ' + bottomColor + ')',

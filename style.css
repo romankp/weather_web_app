@@ -13,9 +13,8 @@
 
 /* Structure */
 /* General */
-html{
+html {
 	height: 100%;
-	background: rgb(235, 247, 250); 
 }
 
 body {
@@ -29,9 +28,9 @@ body {
 	width: 800px;
 	margin: 0 auto;
 	-webkit-transition: all 0.5s ease;
-    -moz-transition: all 0.5s ease;
-    -o-transition: all 0.5s ease;
-    transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
 }
 
 
@@ -39,14 +38,14 @@ body {
 /* Applet */
 #applet {
 	min-height: 193px;
-    z-index: 3;
-    cursor: pointer;
+	z-index: 3;
+	cursor: pointer;
 	margin-bottom: 20px;
 	opacity: .9;
-    text-shadow: 1px 1px rgba(135, 165, 176, .6);
-    color: white;
-    background-color: rgba(12, 14, 13, .15);
-    border-radius: 8px;
+	text-shadow: 1px 1px rgba(135, 165, 176, .6);
+	color: white;
+	background-color: rgba(12, 14, 13, .15);
+	border-radius: 8px;
 }
 
 #applet:hover {
@@ -97,15 +96,15 @@ body {
 
 /* 7 Day Forecast */
 #forecast {
-    height: 351px;
-    opacity: .2;
+	opacity: .2;
 }
 
-#forecast .day {
+.day {
 	float: left;
+	box-sizing: border-box;
 	width: 114px;
-	height: 150px;
 	text-align: center;
+	padding: 0 5px 10px;
 }
 
 .day p:first-of-type, .day p:nth-of-type(2) {
