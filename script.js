@@ -158,7 +158,8 @@ $(() => {
 
 
 	// Clock
-	const clockElement = $("#clock");
+	const timeSpan = $('#clock span').first();
+	const periodSpan = $('#clock span').last();
 
 	const updateClock = () => { // Updates clock element string
 		const today = new Date();
@@ -166,14 +167,19 @@ $(() => {
 		const m = today.getMinutes();
 		const s = today.getSeconds();
 		const n = h >= 12 ? 'PM' : 'AM';
-		clockElement.html(returnTimeString(h, m, s, n));
+		timeSpan.text(returnTimeString(h, m, s));
+		periodSpan.text(n);
 	};
 
-	const returnTimeString = (h, m, s, n) => { // Returns a concatenated, formatted time string 
-		h = h > 12 ? h - 12 : h == 0 ? 12 : h; // We're demilitarizing these hours, heny
-	 	m = m < 10 ? `0${m}` : m; // Adds a zero to the minutes when in single digits
-		s = s < 10 ? `0${s}` : s; // Adds a zero to the seconds when in single digits
-		return `${h}:${m}:${s}<span>${n}</span>`;
+	const returnTimeString = (h, m, s) => { // Returns a concatenated, formatted time string 
+		h = h > 12 ? h - 12 : h === 0 ? 12 : h; // We're demilitarizing these hours, heny
+	 	m = returnTwoDigits(m);
+		s = returnTwoDigits(s);
+		return `${h}:${m}:${s}`;
+	};
+
+	const returnTwoDigits = n => { // Adds a zero when in single digits
+		return n < 10 ? `0${n}` : n;
 	};
 
 
