@@ -76,83 +76,103 @@ $(() => {
 		});
 	};
 
-	const updateBG = icon => { // changes background gradient based on OPW icon
-		let topColor;
-		let bottomColor;
+	const updateBG = icon => { // Constructs and updates background style based on OPW icon
+		const { tp, bt } = returnColorObject(icon);
+		const styleString = `background: ${bt}; background: -webkit-linear-gradient(left top, ${tp}, ${bt}); background: -o-linear-gradient(bottom right, ${tp}, ${bt}); background: -moz-linear-gradient(bottom right, ${tp}, ${bt}); background: linear-gradient(to bottom right, ${tp}, ${bt});`;
+		$("html").attr('style', styleString);
+	};
 
-		if (icon[2] == "d") { // day
-			if (icon[0] == 0 && icon[1] == 2 || icon[0] == 0 && icon[1] == 3) { // kinda' cloudy
-				topColor = "#5c7b90";
-				bottomColor = "#dbecf0";
-			}
-			else if (icon[0] == 0 && icon[1] == 4) { // supa' cloudy
-				topColor = "#dbecf0";
-				bottomColor = "#14141f"
-			}
-			else if (icon[0] == 0 && icon[1] == 9 || icon[0] == 1 && icon[1] == 0) { // rain
-				topColor = "#97afb4";
-				bottomColor = "#6b6dc7"
-			}
-			else if (icon[0] == 1 && icon[1] == 1) { // lightning storm
-				topColor = "#191b18";
-				bottomColor = "#744f43"
-			}
-			else if (icon[0] == 1 && icon[1] == 3) { // snow
-				topColor = "#d8d9d9";
-				bottomColor = "#b8dae0";
-			}
-			else if (icon[0] == 5) { // misty
-				topColor = "#5c7b90";
-				bottomColor = "#dbecf0";
-			}
-			else { // clear
-				topColor =  "#fc504e";
-				bottomColor = "#83e4fc";
-			}
-	
-			console.log("day time (" + icon[2] + ")");
-		} else { // night
-			if (icon[0] == 0 && icon[1] == 2 || icon[0] == 0 && icon[1] == 3) { // kinda' cloudy
-				topColor = "#9494b8";
-				bottomColor = "#14141f";
-			}
-			else if (icon[0] == 0 && icon[1] == 4) { // supa' cloudy
-				topColor = "#9494b8";
-				bottomColor = "#14141f";
-			}
-			else if (icon[0] == 0 && icon[1] == 9 || icon[0] == 1 && icon[1] == 0) { // rain
-				topColor = "#08152b";
-				bottomColor = "#49869c"
-			}
-			else if (icon[0] == 1 && icon[1] == 1) { // lightning storm
-				topColor = "#241537";
-				bottomColor = "#443a22"
-			}
-			else if (icon[0] == 1 && icon[1] == 3) { // snow
-				topColor = "#9494b8";
-				bottomColor = "#05262e";
-			}
-			else if (icon[0] == 5) { // misty
-				topColor = "#7d999b";
-				bottomColor = "#14141f";
-			}
-			else { // clear
-				topColor = "#032230";
-				bottomColor = "#343d89";
-			}
-			
-			console.log("night time (" + icon[2] + ")");
+	const returnColorObject = icon => {
+		const icon0 = icon[0];
+		const icon1 = icon[1];
+		const isDay = icon[2] === "d"; // It's daytime
+
+		switch (icon0, icon1) {
+			case icon0 === 0 && (icon1 === 2 || icon1 === 3): // Kinda' cloudy
+				return {
+					tp: isDay ? '#5c7b90' : '#9494b8',
+					bt: isDay ? '#dbecf0' : '#14141f'
+				};
+				break;
+			case icon0 === 0 && icon1 === 4: // Supa' cloudy
+				return {
+					tp: isDay ? '#dbecf0' : '#9494b8',
+					bt: '#14141f' // Same for day and night
+				};
+				break;
+			case icon0 === 0 && icon1 === 9 || icon0 === 1 && icon1 === 0: // Rain
+				return {
+					tp: isDay ? '#97afb4' : '#08152b',
+					bt: isDay ? '#6b6dc7' : '#49869c'
+				};
+				break;
+			case icon0 === 1 && icon1 === 1: // Lightning storm
+				return {
+					tp: isDay ? '#191b18' : '#241537',
+					bt: isDay ? '#744f43' : '#443a22'
+				};
+				break;
+			case icon0 === 1 && icon1 === 3: // Snow
+				return {
+					tp: isDay ? '#d8d9d9' : '#9494b8',
+					bt: isDay ? '#b8dae0' : '#05262e'
+				};
+				break;
+			case icon0 === 5: // Mist
+				return {
+					tp: isDay ? '#5c7b90' : '#7d999b',
+					bt: isDay ? '#dbecf0' : '#14141f'
+				};
+				break;
+			default:
+				return {
+					tp: isDay ? '#fc504e' : '#032230',
+					bt: isDay ? '#83e4fc' : '#343d89'
+				};
 		}
-
-		const style = [
-			'background: ' + bottomColor,
-			'background: -webkit-linear-gradient(left top, ' + topColor + ', ' + bottomColor + ')',
-			'background: -o-linear-gradient(bottom right, ' + topColor + ', ' + bottomColor + ')', 
-			'background: -moz-linear-gradient(bottom right, ' + topColor + ', ' + bottomColor + ')',
-			'background: linear-gradient(to bottom right, ' + topColor + ', ' + bottomColor + ')'
-		].join(';');
-
-		$("html").attr('style', style);
+		
+		// if (icon0 === 0 && (icon1 === 2 || icon1 === 3)) { // Kinda' cloudy
+		// 	return {
+		// 		tp: isDay ? '#5c7b90' : '#9494b8',
+		// 		bt: isDay ? '#dbecf0' : '#14141f'
+		// 	};
+		// }
+		// else if (icon0 === 0 && icon1 === 4) { // Supa' cloudy
+		// 	return {
+		// 		tp: isDay ? '#dbecf0' : '#9494b8',
+		// 		bt: '#14141f' // Same for day and night
+		// 	};
+		// }
+		// else if (icon0 === 0 && icon1 === 9 || icon0 === 1 && icon1 === 0) { // Rain
+		// 	return {
+		// 		tp: isDay ? '#97afb4' : '#08152b',
+		// 		bt: isDay ? '#6b6dc7' : '#49869c'
+		// 	};
+		// }
+		// else if (icon0 === 1 && icon1 === 1) { // Lightning storm
+		// 	return {
+		// 		tp: isDay ? '#191b18' : '#241537',
+		// 		bt: isDay ? '#744f43' : '#443a22'
+		// 	};
+		// }
+		// else if (icon0 === 1 && icon1 === 3) { // Snow
+		// 	return {
+		// 		tp: isDay ? '#d8d9d9' : '#9494b8',
+		// 		bt: isDay ? '#b8dae0' : '#05262e'
+		// 	};
+		// }
+		// else if (icon0 === 5) { // Mist
+		// 	return {
+		// 		tp: isDay ? '#5c7b90' : '#7d999b',
+		// 		bt: isDay ? '#dbecf0' : '#14141f'
+		// 	};
+		// }
+		// else { // Clear
+		// 	return {
+		// 		tp: isDay ? '#fc504e' : '#032230',
+		// 		bt: isDay ? '#83e4fc' : '#343d89'
+		// 	};
+		// }
 	};
 
 
