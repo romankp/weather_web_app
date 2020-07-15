@@ -10,8 +10,8 @@ $(() => {
 		const cityCode = '4952468';
 		const isCurrent = type === 'current';
 		const endpoint = isCurrent ? 
-		'http://api.openweathermap.org/data/2.5/weather' :
-		'http://api.openweathermap.org/data/2.5/forecast/daily';
+		'https://api.openweathermap.org/data/2.5/weather' :
+		'https://api.openweathermap.org/data/2.5/forecast/daily';
 		const count = isCurrent ? '' : '&cnt=8';
 
 		return `${endpoint}?id=${cityCode}&units=imperial${count}&APPID=${key}`;
@@ -130,49 +130,6 @@ $(() => {
 					bt: isDay ? '#83e4fc' : '#343d89'
 				};
 		}
-		
-		// if (icon0 === 0 && (icon1 === 2 || icon1 === 3)) { // Kinda' cloudy
-		// 	return {
-		// 		tp: isDay ? '#5c7b90' : '#9494b8',
-		// 		bt: isDay ? '#dbecf0' : '#14141f'
-		// 	};
-		// }
-		// else if (icon0 === 0 && icon1 === 4) { // Supa' cloudy
-		// 	return {
-		// 		tp: isDay ? '#dbecf0' : '#9494b8',
-		// 		bt: '#14141f' // Same for day and night
-		// 	};
-		// }
-		// else if (icon0 === 0 && icon1 === 9 || icon0 === 1 && icon1 === 0) { // Rain
-		// 	return {
-		// 		tp: isDay ? '#97afb4' : '#08152b',
-		// 		bt: isDay ? '#6b6dc7' : '#49869c'
-		// 	};
-		// }
-		// else if (icon0 === 1 && icon1 === 1) { // Lightning storm
-		// 	return {
-		// 		tp: isDay ? '#191b18' : '#241537',
-		// 		bt: isDay ? '#744f43' : '#443a22'
-		// 	};
-		// }
-		// else if (icon0 === 1 && icon1 === 3) { // Snow
-		// 	return {
-		// 		tp: isDay ? '#d8d9d9' : '#9494b8',
-		// 		bt: isDay ? '#b8dae0' : '#05262e'
-		// 	};
-		// }
-		// else if (icon0 === 5) { // Mist
-		// 	return {
-		// 		tp: isDay ? '#5c7b90' : '#7d999b',
-		// 		bt: isDay ? '#dbecf0' : '#14141f'
-		// 	};
-		// }
-		// else { // Clear
-		// 	return {
-		// 		tp: isDay ? '#fc504e' : '#032230',
-		// 		bt: isDay ? '#83e4fc' : '#343d89'
-		// 	};
-		// }
 	};
 
 
