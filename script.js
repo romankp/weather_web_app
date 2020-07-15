@@ -66,13 +66,13 @@ $(() => {
 	};
 
 	const updateCurrentWeather = (desc, temp, icon) => { // Updates current weather section
-		weatherDiv.html(`<p><img src='http://openweathermap.org/img/w/${icon}.png'>${temp}&#176</p><p>${desc}</p>`);
+		weatherDiv.html(`<p><img src='https://openweathermap.org/img/w/${icon}.png'>${temp}&#176</p><p>${desc}</p>`);
 	};
 
 	const updateForecast = daysArray => { // Updates the forecast section and each .day element
 		dayDivs.each((i, el) => {
 			const { day, desc, tempMax, tempMin, icon } = daysArray[i];
-			$(el).html(`<h3>${day}</h3><img src='http://openweathermap.org/img/w/${icon}.png'><p>${tempMax}&#176 <span>hi</span></p><p>${tempMin}&#176 <span>lo</span></p><p>${desc}</p>`);
+			$(el).html(`<h3>${day}</h3><img src='https://openweathermap.org/img/w/${icon}.png'><p>${tempMax}&#176 <span>hi</span></p><p>${tempMin}&#176 <span>lo</span></p><p>${desc}</p>`);
 		});
 	};
 
@@ -124,7 +124,7 @@ $(() => {
 					bt: isDay ? '#dbecf0' : '#14141f'
 				};
 				break;
-			default:
+			default: // Clear
 				return {
 					tp: isDay ? '#fc504e' : '#032230',
 					bt: isDay ? '#83e4fc' : '#343d89'
