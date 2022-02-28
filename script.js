@@ -6,7 +6,7 @@ $(() => {
   const dayDivs = $('.day');
   const weekArray = ['SUN', 'MON', 'TUES', 'WED', 'THUR', 'FRI', 'SAT'];
 
-  const returnURL = type => {
+  const getURL = type => {
     // Return the call URL string
     const cityCode = '4952468';
     const isCurrent = type === 'current';
@@ -18,23 +18,22 @@ $(() => {
     return `${endpoint}?id=${cityCode}&units=imperial${count}&appid=${key}`;
   };
 
-  const requestWeatherData = async type => {
-    // Fetch data and return resolved JSON
-    const response = await fetch(returnURL(type)).catch(e => {
-      console.error(`Fetch request failed: ${e}`);
-    });
-    const data = await response.json().catch(e => {
-      console.error(`Failed to resolve response JSON: ${e}`);
-    });
+  const fetchData = async type => {
+    const response = await fetch(getURL(type));
+    const data = await response.json();
     return data;
   };
 
+  // Request both current and forecast data
   const buildAllWeather = async () => {
-    // Delays the the server call between current and forecast requests
-    const currentData = await requestWeatherData('current');
-    const forecastData = await requestWeatherData('forecast');
-    funnelCurrentWeather(currentData);
-    funnelForecastWeather(forecastData);
+    try {
+      const currentData = await fetchData('current');
+      const forecastData = await fetchData('forecast');
+      funnelCurrentWeather(currentData);
+      funnelForecastWeather(forecastData);
+    } catch (e) {
+      console.error('Failed to resolve weather API request:', e);
+    }
   };
 
   const funnelCurrentWeather = data => {
