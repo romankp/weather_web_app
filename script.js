@@ -2,7 +2,8 @@ import { key } from './constants.js';
 
 $(() => {
   // Weather
-  const weatherDiv = $('#weather');
+  const weatherDiv = document.getElementById('weather');
+  // const weatherDiv = $('#weather');
   const dayDivs = $('.day');
   const weekArray = ['SUN', 'MON', 'TUES', 'WED', 'THUR', 'FRI', 'SAT'];
 
@@ -18,6 +19,8 @@ $(() => {
     return `${endpoint}?id=${cityCode}&units=imperial${count}&appid=${key}`;
   };
 
+  // Fetch weather data from the Open Weather API.
+  // Return JSON
   const fetchData = async type => {
     const response = await fetch(getURL(type));
     const data = await response.json();
@@ -37,7 +40,6 @@ $(() => {
   };
 
   const funnelCurrentWeather = data => {
-    // Destructure current weather data and use it to call UI update methods
     const { weather, main } = data;
     const currentWeather = weather[0];
     const temp = Math.round(main.temp);
@@ -49,7 +51,6 @@ $(() => {
   };
 
   const funnelForecastWeather = data => {
-    // Destructure and build forecast weather array, then use it to call UI update method
     const { list } = data;
     const forecastDays = [];
 
@@ -74,11 +75,19 @@ $(() => {
     return dateObj.getUTCDay();
   };
 
+  // Update current weather section
   const updateCurrentWeather = (desc, temp, icon) => {
-    // Updates current weather section
-    weatherDiv.html(
-      `<p><img src='https://openweathermap.org/img/w/${icon}.png'>${temp}&#176</p><p>${desc}</p>`
-    );
+    const tempEl = document.createElement('p');
+    const descEl = document.createElement('p');
+    const img = document.createElement('img');
+
+    img.setAttribute('src', `https://openweathermap.org/img/w/${icon}.png`);
+    tempEl.appendChild(img);
+    tempEl.appendChild(document.createTextNode(`${temp}°`));
+    descEl.innerText = desc;
+
+    weatherDiv.appendChild(tempEl);
+    weatherDiv.appendChild(descEl);
   };
 
   const updateForecast = daysArray => {
