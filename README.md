@@ -2,6 +2,10 @@
 
 A simple, selfish weather web app for Swampscott, MA that uses the Open Weather Map API.
 
+## Update 2022
+
+As of 2022, Open Weather Map has changed its API service policy for free licenses and the endpoint for multi-day forcasts has changed a bit. I'm working on some quick fixes with an eye on integration for my Weather Station project.
+
 ## Update 2020
 
 Revisiting this little app to update it to ES6 standards and notation. And we've moved house! So now we're requesting weather data for Swampscott.

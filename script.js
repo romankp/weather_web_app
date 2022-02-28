@@ -15,7 +15,7 @@ $(() => {
       : 'https://api.openweathermap.org/data/2.5/forecast/daily';
     const count = isCurrent ? '' : '&cnt=8';
 
-    return `${endpoint}?id=${cityCode}&units=imperial${count}&APPID=${key}`;
+    return `${endpoint}?id=${cityCode}&units=imperial${count}&appid=${key}`;
   };
 
   const requestWeatherData = async type => {
