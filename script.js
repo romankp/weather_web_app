@@ -3,7 +3,6 @@ import { key } from './constants.js';
 $(() => {
   // Weather
   const weatherDiv = document.getElementById('weather');
-  // const weatherDiv = $('#weather');
   const dayDivs = $('.day');
   const weekArray = ['SUN', 'MON', 'TUES', 'WED', 'THUR', 'FRI', 'SAT'];
 
