@@ -1,29 +1,8 @@
-import { key } from './constants.js';
+import { fetchData } from './api.js';
 
 const weatherDiv = document.getElementById('weather');
 const dayDivs = document.getElementsByClassName('day');
 const weekArray = ['SUN', 'MON', 'TUES', 'WED', 'THUR', 'FRI', 'SAT'];
-
-// Return the complete weather API URL string
-const getURL = type => {
-  const cityCode = '4952468';
-  const isCurrent = type === 'current';
-  return isCurrent
-    ? `https://api.openweathermap.org/data/2.5/weather?id=${cityCode}&units=imperial&appid=${key}`
-    : `https://api.openweathermap.org/data/2.5/onecall?lat=42.4709&lon=-70.9175&exclude=current,minutely,hourly,alerts&appid=${key}`;
-};
-
-// Fetch weather data from the Open Weather API.
-// Return JSON
-const fetchData = async type => {
-  try {
-    const response = await fetch(getURL(type));
-    const data = await response.json();
-    return data;
-  } catch {
-    console.error(`Failed to resolve ${type} weather API request:`, e);
-  }
-};
 
 // Saturate weather UI with data
 // Update the forecast section and each .day element
