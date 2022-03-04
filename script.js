@@ -1,30 +1,30 @@
 import { key } from './constants.js';
 
+const getURL = type => {
+  // Return the call URL string
+  const cityCode = '4952468';
+  const isCurrent = type === 'current';
+  const endpoint = isCurrent
+    ? 'https://api.openweathermap.org/data/2.5/weather'
+    : 'https://api.openweathermap.org/data/2.5/forecast/daily';
+  const count = isCurrent ? '' : '&cnt=8';
+
+  return `${endpoint}?id=${cityCode}&units=imperial${count}&appid=${key}`;
+};
+
+// Fetch weather data from the Open Weather API.
+// Return JSON
+const fetchData = async type => {
+  const response = await fetch(getURL(type));
+  const data = await response.json();
+  return data;
+};
+
 $(() => {
   // Weather
   const weatherDiv = document.getElementById('weather');
   const dayDivs = $('.day');
   const weekArray = ['SUN', 'MON', 'TUES', 'WED', 'THUR', 'FRI', 'SAT'];
-
-  const getURL = type => {
-    // Return the call URL string
-    const cityCode = '4952468';
-    const isCurrent = type === 'current';
-    const endpoint = isCurrent
-      ? 'https://api.openweathermap.org/data/2.5/weather'
-      : 'https://api.openweathermap.org/data/2.5/forecast/daily';
-    const count = isCurrent ? '' : '&cnt=8';
-
-    return `${endpoint}?id=${cityCode}&units=imperial${count}&appid=${key}`;
-  };
-
-  // Fetch weather data from the Open Weather API.
-  // Return JSON
-  const fetchData = async type => {
-    const response = await fetch(getURL(type));
-    const data = await response.json();
-    return data;
-  };
 
   // Request both current and forecast data
   const buildAllWeather = async () => {
