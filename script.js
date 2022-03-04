@@ -4,20 +4,21 @@ import { key } from './constants.js';
 const getURL = type => {
   const cityCode = '4952468';
   const isCurrent = type === 'current';
-  const endpoint = isCurrent
-    ? 'https://api.openweathermap.org/data/2.5/weather'
-    : 'https://api.openweathermap.org/data/2.5/forecast/daily';
-  const count = isCurrent ? '' : '&cnt=8';
-
-  return `${endpoint}?id=${cityCode}&units=imperial${count}&appid=${key}`;
+  return isCurrent
+    ? `https://api.openweathermap.org/data/2.5/weather?id=${cityCode}&units=imperial&appid=${key}`
+    : `https://api.openweathermap.org/data/2.5/onecall?lat=42.4709&lon=-70.9175&exclude=current,minutely,hourly,alerts&appid=${key}`;
 };
 
 // Fetch weather data from the Open Weather API.
 // Return JSON
 const fetchData = async type => {
-  const response = await fetch(getURL(type));
-  const data = await response.json();
-  return data;
+  try {
+    const response = await fetch(getURL(type));
+    const data = await response.json();
+    return data;
+  } catch {
+    console.error(`Failed to resolve ${type} weather API request:`, e);
+  }
 };
 
 // Weather
@@ -28,14 +29,10 @@ const weekArray = ['SUN', 'MON', 'TUES', 'WED', 'THUR', 'FRI', 'SAT'];
 $(() => {
   // Request both current and forecast data
   const buildAllWeather = async () => {
-    try {
-      const currentData = await fetchData('current');
-      const forecastData = await fetchData('forecast');
-      funnelCurrentWeather(currentData);
-      funnelForecastWeather(forecastData);
-    } catch (e) {
-      console.error('Failed to resolve weather API request:', e);
-    }
+    const currentData = await fetchData('current');
+    const forecastData = await fetchData('forecast');
+    funnelCurrentWeather(currentData);
+    funnelForecastWeather(forecastData);
   };
 
   const funnelCurrentWeather = data => {
@@ -50,12 +47,12 @@ $(() => {
   };
 
   const funnelForecastWeather = data => {
-    const { list } = data;
+    const { daily } = data;
     const forecastDays = [];
 
     for (let d = 1; d < 8; d++) {
-      const { dt } = list[d];
-      const { weather, temp } = list[d - 1];
+      const { dt } = daily[d];
+      const { weather, temp } = daily[d - 1];
       forecastDays[d - 1] = {
         day: weekArray[returnDayIndex(dt)],
         desc: weather[0].description,
@@ -91,7 +88,9 @@ $(() => {
 
   // Update the forecast section and each .day element
   const updateForecast = daysArray => {
+    console.log(dayDivs);
     dayDivs.forEach((el, i) => {
+      console.log(el);
       const { day, desc, tempMax, tempMin, icon } = daysArray[i];
       el.innerHtml = `
         <h3>${day}</h3>
