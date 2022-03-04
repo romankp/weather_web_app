@@ -28,10 +28,8 @@ const fetchData = async type => {
 // Saturate weather UI with data
 // Update the forecast section and each .day element
 const updateForecast = daysArray => {
-  // console.log(dayDivs);
   [...dayDivs].forEach((el, i) => {
     const { day, desc, tempMax, tempMin, icon } = daysArray[i];
-    console.log(daysArray[i]);
     el.innerHTML = `<h3>${day}</h3><img src='https://openweathermap.org/img/w/${icon}.png'><p>${tempMax}&#176 <span>hi</span></p><p>${tempMin}&#176 <span>lo</span></p><p>${desc}</p>`;
   });
 };
