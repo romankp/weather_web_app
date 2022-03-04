@@ -1,5 +1,9 @@
 import { key } from './constants.js';
 
+const weatherDiv = document.getElementById('weather');
+const dayDivs = document.getElementsByClassName('day');
+const weekArray = ['SUN', 'MON', 'TUES', 'WED', 'THUR', 'FRI', 'SAT'];
+
 // Return the complete weather API URL string
 const getURL = type => {
   const cityCode = '4952468';
@@ -21,10 +25,22 @@ const fetchData = async type => {
   }
 };
 
-// Weather
-const weatherDiv = document.getElementById('weather');
-const dayDivs = document.getElementsByClassName('day');
-const weekArray = ['SUN', 'MON', 'TUES', 'WED', 'THUR', 'FRI', 'SAT'];
+// Saturate weather UI with data
+// Update the forecast section and each .day element
+const updateForecast = daysArray => {
+  // console.log(dayDivs);
+  [...dayDivs].forEach((el, i) => {
+    const { day, desc, tempMax, tempMin, icon } = daysArray[i];
+    console.log(daysArray[i]);
+    el.innerHTML = `<h3>${day}</h3><img src='https://openweathermap.org/img/w/${icon}.png'><p>${tempMax}&#176 <span>hi</span></p><p>${tempMin}&#176 <span>lo</span></p><p>${desc}</p>`;
+  });
+};
+
+const returnDayIndex = timeStamp => {
+  // Returns numeric index value to provide associated day of the week
+  const dateObj = new Date(timeStamp * 1000);
+  return dateObj.getUTCDay();
+};
 
 $(() => {
   // Request both current and forecast data
@@ -65,12 +81,6 @@ $(() => {
     updateForecast(forecastDays);
   };
 
-  const returnDayIndex = timeStamp => {
-    // Returns numeric index value to provide associated day of the week
-    const dateObj = new Date(timeStamp * 1000);
-    return dateObj.getUTCDay();
-  };
-
   // Update current weather section
   const updateCurrentWeather = (desc, temp, icon) => {
     const tempEl = document.createElement('p');
@@ -84,22 +94,6 @@ $(() => {
 
     weatherDiv.appendChild(tempEl);
     weatherDiv.appendChild(descEl);
-  };
-
-  // Update the forecast section and each .day element
-  const updateForecast = daysArray => {
-    console.log(dayDivs);
-    dayDivs.forEach((el, i) => {
-      console.log(el);
-      const { day, desc, tempMax, tempMin, icon } = daysArray[i];
-      el.innerHtml = `
-        <h3>${day}</h3>
-        <img src='https://openweathermap.org/img/w/${icon}.png'>
-        <p>${tempMax}&#176 <span>hi</span></p>
-        <p>${tempMin}&#176 <span>lo</span></p>
-        <p>${desc}</p>
-      `;
-    });
   };
 
   const updateBG = icon => {
