@@ -1,7 +1,7 @@
 import { key } from './constants.js';
 
+// Return the complete weather API URL string
 const getURL = type => {
-  // Return the call URL string
   const cityCode = '4952468';
   const isCurrent = type === 'current';
   const endpoint = isCurrent
@@ -20,12 +20,12 @@ const fetchData = async type => {
   return data;
 };
 
-$(() => {
-  // Weather
-  const weatherDiv = document.getElementById('weather');
-  const dayDivs = $('.day');
-  const weekArray = ['SUN', 'MON', 'TUES', 'WED', 'THUR', 'FRI', 'SAT'];
+// Weather
+const weatherDiv = document.getElementById('weather');
+const dayDivs = document.getElementsByClassName('day');
+const weekArray = ['SUN', 'MON', 'TUES', 'WED', 'THUR', 'FRI', 'SAT'];
 
+$(() => {
   // Request both current and forecast data
   const buildAllWeather = async () => {
     try {
@@ -89,13 +89,17 @@ $(() => {
     weatherDiv.appendChild(descEl);
   };
 
+  // Update the forecast section and each .day element
   const updateForecast = daysArray => {
-    // Updates the forecast section and each .day element
-    dayDivs.each((i, el) => {
+    dayDivs.forEach((el, i) => {
       const { day, desc, tempMax, tempMin, icon } = daysArray[i];
-      $(el).html(
-        `<h3>${day}</h3><img src='https://openweathermap.org/img/w/${icon}.png'><p>${tempMax}&#176 <span>hi</span></p><p>${tempMin}&#176 <span>lo</span></p><p>${desc}</p>`
-      );
+      el.innerHtml = `
+        <h3>${day}</h3>
+        <img src='https://openweathermap.org/img/w/${icon}.png'>
+        <p>${tempMax}&#176 <span>hi</span></p>
+        <p>${tempMin}&#176 <span>lo</span></p>
+        <p>${desc}</p>
+      `;
     });
   };
 
