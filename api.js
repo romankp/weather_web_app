@@ -4,9 +4,10 @@ import { key } from './constants.js';
 const getURL = type => {
   const cityCode = '4952468';
   const isCurrent = type === 'current';
+  const base = 'https://api.openweathermap.org/data/2.5/';
   return isCurrent
-    ? `https://api.openweathermap.org/data/2.5/weather?id=${cityCode}&units=imperial&appid=${key}`
-    : `https://api.openweathermap.org/data/2.5/onecall?lat=42.4709&lon=-70.9175&exclude=current,minutely,hourly,alerts&appid=${key}`;
+    ? `${base}weather?id=${cityCode}&units=imperial&appid=${key}`
+    : `${base}onecall?lat=42.4709&lon=-70.9175&exclude=current,minutely,hourly,alerts&units=imperial&appid=${key}`;
 };
 
 // Fetch weather data from the Open Weather API.
