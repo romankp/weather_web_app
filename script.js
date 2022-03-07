@@ -75,60 +75,9 @@ $(() => {
 
   const updateBG = icon => {
     // Constructs and updates background style based on OPW icon
-    const { tp, bt } = returnColorObject(icon);
+    const { tp, bt } = getColorObject(icon);
     const styleString = `background: ${bt}; background: -webkit-linear-gradient(left top, ${tp}, ${bt}); background: -o-linear-gradient(bottom right, ${tp}, ${bt}); background: -moz-linear-gradient(bottom right, ${tp}, ${bt}); background: linear-gradient(to bottom right, ${tp}, ${bt});`;
     $('html').attr('style', styleString);
-  };
-
-  const returnColorObject = icon => {
-    const icon0 = icon[0];
-    const icon1 = icon[1];
-    const isDay = icon[2] === 'd'; // It's daytime
-
-    switch ((icon0, icon1)) {
-      case icon0 === 0 && (icon1 === 2 || icon1 === 3): // Kinda' cloudy
-        return {
-          tp: isDay ? '#5c7b90' : '#9494b8',
-          bt: isDay ? '#dbecf0' : '#14141f',
-        };
-        break;
-      case icon0 === 0 && icon1 === 4: // Supa' cloudy
-        return {
-          tp: isDay ? '#dbecf0' : '#9494b8',
-          bt: '#14141f', // Same for day and night
-        };
-        break;
-      case (icon0 === 0 && icon1 === 9) || (icon0 === 1 && icon1 === 0): // Rain
-        return {
-          tp: isDay ? '#97afb4' : '#08152b',
-          bt: isDay ? '#6b6dc7' : '#49869c',
-        };
-        break;
-      case icon0 === 1 && icon1 === 1: // Lightning storm
-        return {
-          tp: isDay ? '#191b18' : '#241537',
-          bt: isDay ? '#744f43' : '#443a22',
-        };
-        break;
-      case icon0 === 1 && icon1 === 3: // Snow
-        return {
-          tp: isDay ? '#d8d9d9' : '#9494b8',
-          bt: isDay ? '#b8dae0' : '#05262e',
-        };
-        break;
-      case icon0 === 5: // Mist
-        return {
-          tp: isDay ? '#5c7b90' : '#7d999b',
-          bt: isDay ? '#dbecf0' : '#14141f',
-        };
-        break;
-      default:
-        // Clear
-        return {
-          tp: isDay ? '#fc504e' : '#032230',
-          bt: isDay ? '#83e4fc' : '#343d89',
-        };
-    }
   };
 
   // Bit of toggle fun
@@ -158,6 +107,59 @@ $(() => {
   // Add UI
   $('#applet').click(() => animateBoxToggle());
 });
+
+// Visuals
+// Return object describing background colors based on the weather API's icon code
+const getColorObject = icon => {
+  const icon0 = icon[0];
+  const icon1 = icon[1];
+  const isDay = icon[2] === 'd'; // It's daytime
+
+  switch ((icon0, icon1)) {
+    case icon0 === 0 && (icon1 === 2 || icon1 === 3): // Kinda' cloudy
+      return {
+        tp: isDay ? '#5c7b90' : '#9494b8',
+        bt: isDay ? '#dbecf0' : '#14141f',
+      };
+      break;
+    case icon0 === 0 && icon1 === 4: // Supa' cloudy
+      return {
+        tp: isDay ? '#dbecf0' : '#9494b8',
+        bt: '#14141f', // Same for day and night
+      };
+      break;
+    case (icon0 === 0 && icon1 === 9) || (icon0 === 1 && icon1 === 0): // Rain
+      return {
+        tp: isDay ? '#97afb4' : '#08152b',
+        bt: isDay ? '#6b6dc7' : '#49869c',
+      };
+      break;
+    case icon0 === 1 && icon1 === 1: // Lightning storm
+      return {
+        tp: isDay ? '#191b18' : '#241537',
+        bt: isDay ? '#744f43' : '#443a22',
+      };
+      break;
+    case icon0 === 1 && icon1 === 3: // Snow
+      return {
+        tp: isDay ? '#d8d9d9' : '#9494b8',
+        bt: isDay ? '#b8dae0' : '#05262e',
+      };
+      break;
+    case icon0 === 5: // Mist
+      return {
+        tp: isDay ? '#5c7b90' : '#7d999b',
+        bt: isDay ? '#dbecf0' : '#14141f',
+      };
+      break;
+    default:
+      // Clear
+      return {
+        tp: isDay ? '#fc504e' : '#032230',
+        bt: isDay ? '#83e4fc' : '#343d89',
+      };
+  }
+};
 
 // Clock
 const clockEl = document.getElementById('clock');
