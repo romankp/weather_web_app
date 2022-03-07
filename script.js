@@ -73,13 +73,6 @@ $(() => {
     weatherDiv.appendChild(descEl);
   };
 
-  const updateBG = icon => {
-    // Constructs and updates background style based on OPW icon
-    const { tp, bt } = getColorObject(icon);
-    const styleString = `background: ${bt}; background: -webkit-linear-gradient(left top, ${tp}, ${bt}); background: -o-linear-gradient(bottom right, ${tp}, ${bt}); background: -moz-linear-gradient(bottom right, ${tp}, ${bt}); background: linear-gradient(to bottom right, ${tp}, ${bt});`;
-    $('html').attr('style', styleString);
-  };
-
   // Bit of toggle fun
   const animateBoxToggle = () => {
     // The animate portion of this method can be done with css
@@ -109,6 +102,15 @@ $(() => {
 });
 
 // Visuals
+
+// Update background style based on the OW API's icon code for the current weather
+const updateBG = icon => {
+  const htmlTag = document.getElementsByTagName('html')[0];
+  const { tp, bt } = getColorObject(icon);
+  const styleString = `background: ${bt}; background: -webkit-linear-gradient(left top, ${tp}, ${bt}); background: -o-linear-gradient(bottom right, ${tp}, ${bt}); background: -moz-linear-gradient(bottom right, ${tp}, ${bt}); background: linear-gradient(to bottom right, ${tp}, ${bt});`;
+  htmlTag.setAttribute('style', styleString);
+};
+
 // Return object describing background colors based on the weather API's icon code
 const getColorObject = icon => {
   const icon0 = icon[0];
