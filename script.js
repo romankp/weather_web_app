@@ -6,6 +6,33 @@ const dayDivs = document.getElementsByClassName('day');
 const weekArray = ['SUN', 'MON', 'TUES', 'WED', 'THUR', 'FRI', 'SAT'];
 
 // Saturate weather UI with data
+
+// Update current weather section
+const updateCurrentWeather = (desc, temp, icon) => {
+  const tempEl = document.createElement('p');
+  const descEl = document.createElement('p');
+  const img = document.createElement('img');
+
+  img.setAttribute('src', `https://openweathermap.org/img/w/${icon}.png`);
+  tempEl.appendChild(img);
+  tempEl.appendChild(document.createTextNode(`${temp}°`));
+  descEl.innerText = desc;
+
+  weatherDiv.appendChild(tempEl);
+  weatherDiv.appendChild(descEl);
+};
+
+const funnelCurrentWeather = data => {
+  const { weather, main } = data;
+  const currentWeather = weather[0];
+  const temp = Math.round(main.temp);
+  const desc = currentWeather.description;
+  const icon = currentWeather.icon;
+
+  updateBG(icon);
+  updateCurrentWeather(desc, temp, icon);
+};
+
 // Update the forecast section and each .day element
 const updateForecast = daysArray => {
   [...dayDivs].forEach((el, i) => {
@@ -40,40 +67,6 @@ const returnDayIndex = timeStamp => {
 };
 
 $(() => {
-  // Request both current and forecast data
-  const buildAllWeather = async () => {
-    const currentData = await fetchData('current');
-    const forecastData = await fetchData('forecast');
-    funnelCurrentWeather(currentData);
-    funnelForecastWeather(forecastData);
-  };
-
-  const funnelCurrentWeather = data => {
-    const { weather, main } = data;
-    const currentWeather = weather[0];
-    const temp = Math.round(main.temp);
-    const desc = currentWeather.description;
-    const icon = currentWeather.icon;
-
-    updateBG(icon);
-    updateCurrentWeather(desc, temp, icon);
-  };
-
-  // Update current weather section
-  const updateCurrentWeather = (desc, temp, icon) => {
-    const tempEl = document.createElement('p');
-    const descEl = document.createElement('p');
-    const img = document.createElement('img');
-
-    img.setAttribute('src', `https://openweathermap.org/img/w/${icon}.png`);
-    tempEl.appendChild(img);
-    tempEl.appendChild(document.createTextNode(`${temp}°`));
-    descEl.innerText = desc;
-
-    weatherDiv.appendChild(tempEl);
-    weatherDiv.appendChild(descEl);
-  };
-
   // Bit of toggle fun
   const animateBoxToggle = () => {
     // The animate portion of this method can be done with css
@@ -91,12 +84,6 @@ $(() => {
     targetElement.removeClass(classToRemove);
     targetElement.addClass(classToAdd);
   };
-
-  // Init clock
-  buildAllWeather();
-
-  // Set Intervals
-  setInterval(() => buildAllWeather(), 1800000);
 
   // Add UI
   $('#applet').click(() => animateBoxToggle());
@@ -164,4 +151,17 @@ const getColorObject = icon => {
   }
 };
 
+// Request both current and forecast data and process it
+const buildAllWeather = async () => {
+  const currentData = await fetchData('current');
+  const forecastData = await fetchData('forecast');
+  funnelCurrentWeather(currentData);
+  funnelForecastWeather(forecastData);
+};
+
+// Init app sections
 initClock();
+buildAllWeather();
+
+// Set interval for
+setInterval(() => buildAllWeather(), 1800000);
