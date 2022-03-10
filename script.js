@@ -90,7 +90,6 @@ $(() => {
 });
 
 // Visuals
-
 // Update background style based on the OW API's icon code for the current weather
 const updateBG = icon => {
   const htmlTag = document.getElementsByTagName('html')[0];
@@ -151,12 +150,23 @@ const getColorObject = icon => {
   }
 };
 
+// Custom Event & Listener
+const weatherReady = new Event('weatherReady');
+
+document.addEventListener('weatherReady', () => {
+  const wrapperDiv = document.getElementById('box');
+  wrapperDiv.classList.add('ready');
+});
+
 // Request both current and forecast data and process it
 const buildAllWeather = async () => {
   const currentData = await fetchData('current');
   const forecastData = await fetchData('forecast');
   funnelCurrentWeather(currentData);
   funnelForecastWeather(forecastData);
+
+  // Trigger weatherReady
+  document.dispatchEvent(weatherReady);
 };
 
 // Init app sections
@@ -164,4 +174,4 @@ initClock();
 buildAllWeather();
 
 // Set interval for
-setInterval(() => buildAllWeather(), 1800000);
+setInterval(() => buildAllWeather(), 1800 * 1000);
