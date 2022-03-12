@@ -166,7 +166,7 @@ const weatherReady = new Event('weatherReady');
 
 // Init Listeners
 document.addEventListener('weatherReady', () => {
-  const wrapperDiv = document.getElementById('box');
+  const wrapperDiv = document.getElementById('main-panel');
   wrapperDiv.classList.add('ready');
 });
 
