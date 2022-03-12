@@ -2,7 +2,9 @@ import { fetchData } from './api.js';
 import { initClock } from './clock.js';
 
 const bodyEl = document.getElementsByTagName('body')[0];
+const mainPanelDiv = document.getElementById('main-panel');
 const weatherDiv = document.getElementById('weather');
+const forecastDiv = document.getElementById('forecast');
 const dayDivs = document.getElementsByClassName('day');
 const weekArray = ['SUN', 'MON', 'TUES', 'WED', 'THUR', 'FRI', 'SAT'];
 
@@ -67,28 +69,13 @@ const returnDayIndex = timeStamp => {
   return dateObj.getUTCDay();
 };
 
-// $(() => {
-//   // Bit of toggle fun
-//   const animateBoxToggle = () => {
-//     // The animate portion of this method can be done with css
-//     const box = $('#box');
-//     const minifiedBox = box.hasClass('box-min');
-//     $('#forecast').animate({ opacity: 1, height: 'toggle' }, 1000);
-//     minifiedBox
-//       ? switchClass(box, 'box-min', 'box-full')
-//       : switchClass(box, 'box-full', 'box-min');
-//   };
+// User Interaction
+const handleClick = () => {
+  forecastDiv.classList.toggle('show');
+};
 
-//   // Utilities
-//   const switchClass = (targetElement, classToRemove, classToAdd) => {
-//     // Custom switchClass method since base jQuery doesn't have this feature....?
-//     targetElement.removeClass(classToRemove);
-//     targetElement.addClass(classToAdd);
-//   };
-
-//   // Add UI
-//   $('#applet').click(() => animateBoxToggle());
-// });
+// Interaction Listeners
+mainPanelDiv.onclick = handleClick;
 
 // Visuals
 // Update background style based on the OW API's icon code for the current weather
