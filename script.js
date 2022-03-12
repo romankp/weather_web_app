@@ -150,14 +150,6 @@ const getColorObject = icon => {
   }
 };
 
-// Custom Event & Listener
-const weatherReady = new Event('weatherReady');
-
-document.addEventListener('weatherReady', () => {
-  const wrapperDiv = document.getElementById('box');
-  wrapperDiv.classList.add('ready');
-});
-
 // Request both current and forecast data and process it
 const buildAllWeather = async () => {
   const currentData = await fetchData('current');
@@ -168,6 +160,15 @@ const buildAllWeather = async () => {
   // Trigger weatherReady
   document.dispatchEvent(weatherReady);
 };
+
+// Custom Event
+const weatherReady = new Event('weatherReady');
+
+// Init Listeners
+document.addEventListener('weatherReady', () => {
+  const wrapperDiv = document.getElementById('box');
+  wrapperDiv.classList.add('ready');
+});
 
 // Init app sections
 initClock();
