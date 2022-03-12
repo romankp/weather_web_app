@@ -167,7 +167,9 @@ const weatherReady = new Event('weatherReady');
 // Init Listeners
 document.addEventListener('weatherReady', () => {
   const wrapperDiv = document.getElementById('main-panel');
-  wrapperDiv.classList.add('ready');
+  setTimeout(() => {
+    wrapperDiv.classList.add('ready');
+  }, 800);
 });
 
 // Init app sections
