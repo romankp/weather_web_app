@@ -21,6 +21,9 @@ body {
   font-family: 'Roboto', helvetica, arial, sans-serif;
   font-weight: 100;
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Applet */
@@ -34,26 +37,26 @@ h1 {
 
 #main-panel {
   width: 800px;
-  margin: 0 auto;
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
   transition: all 0.5s ease;
-}
-
-#applet {
   min-height: 193px;
   z-index: 3;
   cursor: pointer;
-  opacity: 0.9;
+  opacity: 0;
   text-shadow: 1px 1px rgba(135, 165, 176, 0.6);
   color: white;
   background-color: rgba(12, 14, 13, 0.15);
   border-radius: 8px;
 }
 
-#applet:hover {
-  box-shadow: 0px 0px 0px 1px rgba(12, 14, 13, 0.25) inset;
+#main-panel.ready {
+  opacity: 1;
+}
+
+#main-panel:hover {
+  box-shadow: 0px 0px 0px 1px rgba(12, 14, 13, 0.5) inset;
 }
 
 /* Clock */
@@ -136,14 +139,6 @@ h1 {
 }
 
 /* General Classes */
-.box-min {
-  padding-top: 30vh;
-}
-
-.box-full {
-  padding-top: 26vh;
-}
-
 .hide {
   display: none;
 }

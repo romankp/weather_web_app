@@ -66,28 +66,28 @@ const returnDayIndex = timeStamp => {
   return dateObj.getUTCDay();
 };
 
-$(() => {
-  // Bit of toggle fun
-  const animateBoxToggle = () => {
-    // The animate portion of this method can be done with css
-    const box = $('#box');
-    const minifiedBox = box.hasClass('box-min');
-    $('#forecast').animate({ opacity: 1, height: 'toggle' }, 1000);
-    minifiedBox
-      ? switchClass(box, 'box-min', 'box-full')
-      : switchClass(box, 'box-full', 'box-min');
-  };
+// $(() => {
+//   // Bit of toggle fun
+//   const animateBoxToggle = () => {
+//     // The animate portion of this method can be done with css
+//     const box = $('#box');
+//     const minifiedBox = box.hasClass('box-min');
+//     $('#forecast').animate({ opacity: 1, height: 'toggle' }, 1000);
+//     minifiedBox
+//       ? switchClass(box, 'box-min', 'box-full')
+//       : switchClass(box, 'box-full', 'box-min');
+//   };
 
-  // Utilities
-  const switchClass = (targetElement, classToRemove, classToAdd) => {
-    // Custom switchClass method since base jQuery doesn't have this feature....?
-    targetElement.removeClass(classToRemove);
-    targetElement.addClass(classToAdd);
-  };
+//   // Utilities
+//   const switchClass = (targetElement, classToRemove, classToAdd) => {
+//     // Custom switchClass method since base jQuery doesn't have this feature....?
+//     targetElement.removeClass(classToRemove);
+//     targetElement.addClass(classToAdd);
+//   };
 
-  // Add UI
-  $('#applet').click(() => animateBoxToggle());
-});
+//   // Add UI
+//   $('#applet').click(() => animateBoxToggle());
+// });
 
 // Visuals
 // Update background style based on the OW API's icon code for the current weather
@@ -175,4 +175,4 @@ initClock();
 buildAllWeather();
 
 // Set interval for
-setInterval(() => buildAllWeather(), 1800 * 1000);
+setInterval(() => buildAllWeather(), 30 * 60 * 1000);
