@@ -24,6 +24,16 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  opacity: 0;
+  background-color: #343d89;
+}
+
+body.ready {
+  opacity: 1;
 }
 
 /* Applet */
@@ -37,22 +47,13 @@ h1 {
 
 #main-panel {
   width: 800px;
-  -webkit-transition: all 0.5s ease;
-  -moz-transition: all 0.5s ease;
-  -o-transition: all 0.5s ease;
-  transition: all 0.5s ease;
   min-height: 193px;
   z-index: 3;
   cursor: pointer;
-  opacity: 0;
   text-shadow: 1px 1px rgba(135, 165, 176, 0.6);
   color: white;
   background-color: rgba(12, 14, 13, 0.15);
   border-radius: 8px;
-}
-
-#main-panel.ready {
-  opacity: 1;
 }
 
 #main-panel:hover {

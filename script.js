@@ -1,6 +1,7 @@
 import { fetchData } from './api.js';
 import { initClock } from './clock.js';
 
+const bodyEl = document.getElementsByTagName('body')[0];
 const weatherDiv = document.getElementById('weather');
 const dayDivs = document.getElementsByClassName('day');
 const weekArray = ['SUN', 'MON', 'TUES', 'WED', 'THUR', 'FRI', 'SAT'];
@@ -92,10 +93,10 @@ const returnDayIndex = timeStamp => {
 // Visuals
 // Update background style based on the OW API's icon code for the current weather
 const updateBG = icon => {
-  const htmlTag = document.getElementsByTagName('html')[0];
+  // const htmlTag = document.getElementsByTagName('html')[0];
   const { tp, bt } = getColorObject(icon);
   const styleString = `background: ${bt}; background: -webkit-linear-gradient(left top, ${tp}, ${bt}); background: -o-linear-gradient(bottom right, ${tp}, ${bt}); background: -moz-linear-gradient(bottom right, ${tp}, ${bt}); background: linear-gradient(to bottom right, ${tp}, ${bt});`;
-  htmlTag.setAttribute('style', styleString);
+  bodyEl.setAttribute('style', styleString);
 };
 
 // Return object describing background colors based on the weather API's icon code
@@ -166,9 +167,8 @@ const weatherReady = new Event('weatherReady');
 
 // Init Listeners
 document.addEventListener('weatherReady', () => {
-  const wrapperDiv = document.getElementById('main-panel');
   setTimeout(() => {
-    wrapperDiv.classList.add('ready');
+    bodyEl.classList.add('ready');
   }, 800);
 });
 
@@ -176,5 +176,5 @@ document.addEventListener('weatherReady', () => {
 initClock();
 buildAllWeather();
 
-// Set interval for
+// Set interval to call for weather data and rebuild the weather UI every 30 minutes
 setInterval(() => buildAllWeather(), 30 * 60 * 1000);
