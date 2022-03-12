@@ -102,7 +102,11 @@ h1 {
 
 /* 7 Day Forecast */
 #forecast {
-  opacity: 0.2;
+  display: none;
+}
+
+#forecast.show {
+  display: block;
 }
 
 .day {
@@ -140,10 +144,6 @@ h1 {
 }
 
 /* General Classes */
-.hide {
-  display: none;
-}
-
 .clear:after {
   clear: both;
   content: '';
