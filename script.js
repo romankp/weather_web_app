@@ -12,17 +12,25 @@ const weekArray = ['SUN', 'MON', 'TUES', 'WED', 'THUR', 'FRI', 'SAT'];
 
 // Update current weather section
 const updateCurrentWeather = (desc, temp, icon) => {
-  const tempEl = document.createElement('p');
-  const descEl = document.createElement('p');
-  const img = document.createElement('img');
+  // If weatherDiv already has child elements, we want to use them instead of creating new ones
+  if (weatherDiv.firstChild) {
+    const img = weatherDiv.getElementsByTagName('img')[0];
+    img.setAttribute('src', `https://openweathermap.org/img/w/${icon}.png`);
+  } else {
+    const tempEl = document.createElement('p');
+    const descEl = document.createElement('p');
+    const img = document.createElement('img');
 
-  img.setAttribute('src', `https://openweathermap.org/img/w/${icon}.png`);
-  tempEl.appendChild(img);
-  tempEl.appendChild(document.createTextNode(`${temp}°`));
-  descEl.innerText = desc;
+    img.setAttribute('src', `https://openweathermap.org/img/w/${icon}.png`);
+    tempEl.appendChild(img);
+    tempEl.appendChild(document.createTextNode(`${temp}°`));
+    descEl.innerText = desc;
 
-  weatherDiv.appendChild(tempEl);
-  weatherDiv.appendChild(descEl);
+    weatherDiv.appendChild(tempEl);
+    weatherDiv.appendChild(descEl);
+
+    console.log(weatherDiv.getElementsByTagName('img')[0]);
+  }
 };
 
 const funnelCurrentWeather = data => {
