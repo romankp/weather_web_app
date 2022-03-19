@@ -100,14 +100,6 @@ h1 {
 }
 
 /* 7 Day Forecast */
-#forecast {
-  display: none;
-}
-
-#forecast.show {
-  display: block;
-}
-
 .day {
   float: left;
   box-sizing: border-box;
