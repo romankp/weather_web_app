@@ -63,9 +63,7 @@ h1 {
 /* Clock */
 #clock {
   display: block;
-  width: 50%;
   text-align: center;
-  border-right: 1px solid rgba(12, 14, 13, 0.15);
 }
 
 #clock span:first-of-type {
@@ -79,7 +77,6 @@ h1 {
 
 /* Weather */
 #weather {
-  width: 50%;
   text-align: center;
   font-size: 45px;
 }
