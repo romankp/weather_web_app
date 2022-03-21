@@ -48,7 +48,12 @@ const funnelCurrentWeather = data => {
 const updateForecast = daysArray => {
   [...dayDivs].forEach((el, i) => {
     const { day, desc, tempMax, tempMin, icon } = daysArray[i];
-    el.innerHTML = `<h3>${day}</h3><img src='https://openweathermap.org/img/w/${icon}.png'><p>${tempMax}&#176 <span>hi</span></p><p>${tempMin}&#176 <span>lo</span></p><p>${desc}</p>`;
+    const heading = document.createElement('h3');
+
+    heading.innerText = day;
+
+    el.innerHTML = `<img src='https://openweathermap.org/img/w/${icon}.png'><p>${tempMax}&#176 <span>hi</span></p><p>${tempMin}&#176 <span>lo</span></p><p>${desc}</p>`;
+    el.prepend(heading);
   });
 };
 
