@@ -49,10 +49,13 @@ const updateForecast = daysArray => {
   [...dayDivs].forEach((el, i) => {
     const { day, desc, tempMax, tempMin, icon } = daysArray[i];
     const heading = document.createElement('h3');
+    const img = document.createElement('img');
 
     heading.innerText = day;
+    img.setAttribute('src', `https://openweathermap.org/img/w/${icon}.png`);
 
-    el.innerHTML = `<img src='https://openweathermap.org/img/w/${icon}.png'><p>${tempMax}&#176 <span>hi</span></p><p>${tempMin}&#176 <span>lo</span></p><p>${desc}</p>`;
+    el.innerHTML = `<p>${tempMax}&#176 <span>hi</span></p><p>${tempMin}&#176 <span>lo</span></p><p>${desc}</p>`;
+    el.prepend(img);
     el.prepend(heading);
   });
 };
