@@ -36,7 +36,8 @@ body.ready {
 }
 
 /* App */
-h1 {
+h1,
+h2 {
   position: absolute;
   left: -10000px;
   width: 1px;
