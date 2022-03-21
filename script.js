@@ -28,8 +28,6 @@ const updateCurrentWeather = (desc, temp, icon) => {
 
     weatherDiv.appendChild(tempEl);
     weatherDiv.appendChild(descEl);
-
-    console.log(weatherDiv.getElementsByTagName('img')[0]);
   }
 };
 
