@@ -50,13 +50,26 @@ const updateForecast = daysArray => {
     const { day, desc, tempMax, tempMin, icon } = daysArray[i];
     const heading = document.createElement('h3');
     const img = document.createElement('img');
+    const descEl = document.createElement('p');
 
     heading.innerText = day;
     img.setAttribute('src', `https://openweathermap.org/img/w/${icon}.png`);
 
-    el.innerHTML = `<p>${tempMax}&#176 <span>hi</span></p><p>${tempMin}&#176 <span>lo</span></p><p>${desc}</p>`;
-    el.prepend(img);
-    el.prepend(heading);
+    el.append(img);
+    el.append(heading);
+
+    for (let i = 0; i <= 1; i++) {
+      const p = document.createElement('p');
+      const span = document.createElement('span');
+
+      span.innerText = i ? 'lo' : 'hi';
+      p.appendChild(document.createTextNode(`${i ? tempMin : tempMax}° `));
+      p.append(span);
+      el.append(p);
+    }
+
+    descEl.innerText = desc;
+    el.append(descEl);
   });
 };
 
