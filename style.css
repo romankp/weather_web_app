@@ -68,7 +68,7 @@ h2 {
 }
 
 #clock span:first-of-type {
-  font-size: 90px;
+  font-size: 98px;
 }
 
 #clock span:last-of-type {
@@ -79,7 +79,7 @@ h2 {
 /* Weather */
 #weather {
   text-align: center;
-  font-size: 45px;
+  font-size: 48px;
 }
 
 #weather p:first-of-type {
