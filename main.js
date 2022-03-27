@@ -32,14 +32,13 @@ const updateCurrentWeather = (desc, temp, icon) => {
 };
 
 const funnelCurrentWeather = data => {
-  const { weather, main } = data;
-  const currentWeather = weather[0];
-  const temp = Math.round(main.temp);
-  const desc = currentWeather.description;
-  const icon = currentWeather.icon;
+  const { current } = data;
+  const { weather, temp } = current;
+  const { description, icon } = weather[0];
+  const roundedTemp = Math.round(temp);
 
   updateBG(icon);
-  updateCurrentWeather(desc, temp, icon);
+  updateCurrentWeather(description, roundedTemp, icon);
 };
 
 // Update the forecast section and each .day element
@@ -170,10 +169,9 @@ const getColorObject = icon => {
 
 // Request both current and forecast data and process it
 const buildAllWeather = async () => {
-  const currentData = await fetchData('current');
-  const forecastData = await fetchData('forecast');
-  funnelCurrentWeather(currentData);
-  funnelForecastWeather(forecastData);
+  const data = await fetchData();
+  funnelCurrentWeather(data);
+  funnelForecastWeather(data);
 
   // Trigger weatherReady
   document.dispatchEvent(weatherReady);
