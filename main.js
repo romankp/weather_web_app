@@ -32,8 +32,10 @@ const updateCurrentWeather = (desc, temp, icon) => {
 };
 
 const funnelCurrentWeather = data => {
-  const { current } = data;
-  const { weather, temp } = current;
+  const {
+    current: { weather, temp },
+  } = data;
+  // const { weather, temp } = current;
   const { description, icon } = weather[0];
   const roundedTemp = Math.round(temp);
 
