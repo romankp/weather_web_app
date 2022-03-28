@@ -15,9 +15,9 @@ const processCurrentWeather = data => {
 
 // Update background style based on the OW API's icon code for the current weather
 const updateBG = icon => {
-  // const htmlTag = document.getElementsByTagName('html')[0];
   const { tp, bt } = getColorObject(icon);
   const styleString = `background: ${bt}; background: -webkit-linear-gradient(left top, ${tp}, ${bt}); background: -o-linear-gradient(bottom right, ${tp}, ${bt}); background: -moz-linear-gradient(bottom right, ${tp}, ${bt}); background: linear-gradient(to bottom right, ${tp}, ${bt});`;
+
   bodyEl.setAttribute('style', styleString);
 };
 
@@ -78,23 +78,14 @@ const getColorObject = icon => {
 
 // Update current weather section
 const updateCurrentWeather = (desc, temp, icon) => {
-  // If weatherDiv already has child elements, we want to use them instead of creating new ones
-  if (weatherDiv.firstChild) {
-    const img = weatherDiv.getElementsByTagName('img')[0];
-    img.setAttribute('src', `https://openweathermap.org/img/w/${icon}.png`);
-  } else {
-    const tempEl = document.createElement('p');
-    const descEl = document.createElement('p');
-    const img = document.createElement('img');
+  const img = weatherDiv.getElementsByTagName('img')[0];
+  const tempEl = weatherDiv.getElementsByTagName('p')[0];
+  const descEl = weatherDiv.getElementsByTagName('p')[1];
+  const tempSpan = tempEl.getElementsByTagName('span')[0];
 
-    img.setAttribute('src', `https://openweathermap.org/img/w/${icon}.png`);
-    tempEl.appendChild(img);
-    tempEl.appendChild(document.createTextNode(`${temp}°`));
-    descEl.innerText = desc;
-
-    weatherDiv.appendChild(tempEl);
-    weatherDiv.appendChild(descEl);
-  }
+  img.setAttribute('src', `https://openweathermap.org/img/w/${icon}.png`);
+  tempSpan.appendChild(document.createTextNode(`${temp}°`));
+  descEl.innerText = desc;
 };
 
 export { processCurrentWeather };
