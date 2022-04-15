@@ -20,9 +20,7 @@ const weatherReady = new Event('weatherReady');
 
 // Init Listeners
 document.addEventListener('weatherReady', () => {
-  setTimeout(() => {
-    bodyEl.classList.add('ready');
-  }, 800);
+  bodyEl.classList.add('ready');
 });
 
 // Init app sections
